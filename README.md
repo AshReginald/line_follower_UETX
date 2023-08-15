@@ -15,5 +15,6 @@ Dưới đây là cách cài đặt thư viện AFMotor.h:
   B3: Trong hộp thoại "Library Manager" tìm kiếm "Adafruit Motor Shield" hoặc "AFMotor", sau đó nhấp vào nút "Install" để cài đặt thư viện.
   
   B4: Chờ đợi quá trình cài đặt hoàn tất.
+
 3. Lưu ý:
 
