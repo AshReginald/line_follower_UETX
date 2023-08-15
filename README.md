@@ -7,6 +7,7 @@ Xe dò line tham gia UETX
 Để sử dụng thư viện AFMotor.h trong mã code điều khiển động cơ DC bằng module L298N, bạn cần cài đặt thư viện này vào môi trường phát triển Arduino của bạn. Thư viện AFMotor.h cung cấp các chức năng và hàm giúp điều khiển động cơ bằng các chân GPIO của Arduino.
 
 Dưới đây là cách cài đặt thư viện AFMotor.h:
+  
   B1: Mở Arduino IDE (Môi trường phát triển Arduino).
   
   B2: Chọn menu "Sketch" > "Include Library" > "Manage Libraries...".
