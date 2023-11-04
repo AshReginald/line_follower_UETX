@@ -1,0 +1,78 @@
+#include <QTRSensors.h>
+
+QTRSensors qtr;
+
+const  uint8_t SensorCount = 8;
+uint16_t sensorValues[SensorCount];
+
+int P;
+int I;
+int D;
+
+float  Kp = 0.05;
+float Ki = 0.00001;
+float Kd = 0.8;
+
+int lastError = 0;
+
+int ENA = 10;   
+int IN1 = 8;
+int IN2 = 9;
+int ENB = 11;   
+int IN3 = 12;
+int IN4 = 13;
+
+void setup()
+{
+  delay(1000);
+  qtr.setTypeRC();
+  qtr.setSensorPins((const uint8_t[]){5, 6, A5, A4, A3, A2, A1, A0}, SensorCount);
+  qtr.setEmitterPin(2);
+  
+  pinMode(ENA, OUTPUT);
+  pinMode(IN1, OUTPUT);
+  pinMode(IN2, OUTPUT);
+  pinMode(ENB, OUTPUT);
+  pinMode(IN3, OUTPUT);
+  pinMode(IN4, OUTPUT);
+}
+
+
+
+void loop()
+{
+  unsigned int sensors[8];
+  uint16_t position = qtr.readLineBlack(sensors);
+  int error = 3500 - position;
+
+  P = error;
+  I = error + I;
+  D  = error - lastError;
+  lastError = error; 
+  
+  int motorSpeed = P*Kp  + I*Ki + D*Kd;
+
+  int leftMotorSpeed = 100 + motorSpeed;
+  int rightMotorSpeed = 100 - motorSpeed;
+
+  set_motorsL(leftMotorSpeed);
+  set_motorsR(rightMotorSpeed);
+}
+
+void set_motorsL(int motor1speed)
+{
+  if (motor1speed > 125) motor1speed = 125; // limit top speed
+  if (motor1speed < 0) motor1speed = 0; // keep motor above 0
+  digitalWrite(IN1, HIGH);
+  digitalWrite(IN2, LOW);
+  analogWrite(ENA, motor1speed);
+}
+
+void set_motorsR(int motor2speed)
+{
+  if (motor2speed > 125) motor2speed = 125; // limit top speed
+  if (motor2speed < 0) motor2speed = 0; // keep motor speed above 0
+  digitalWrite(IN3, HIGH);
+  digitalWrite(IN4, LOW);
+  analogWrite(ENB, motor2speed);
+}
